@@ -1,0 +1,176 @@
+{
+  "Description": "Educational JSON for standard Autodesk Inventor 2026 AddIn template (TestAddIn). This JSON includes full explanations of each part, references, COM dependencies, and post-build actions.",
+  "ProjectName": "TestAddIn",
+  "RootNamespace": "InvAddIn",
+  "TargetFramework": "net8.0-windows",
+  "OutputType": "Library",
+  "UseWindowsForms": true,
+  "GenerateAssemblyInfo": false,
+  "RunPostBuildEvent": "OnBuildSuccess",
+  "EnableDefaultItems": false,
+  "Configuration": {
+    "Debug": {
+      "BaseAddress": 285212672,
+      "FileAlignment": 4096,
+      "NoStdLib": false,
+      "RegisterForComInterop": false,
+      "CodeAnalysisRuleSet": "AllRules.ruleset",
+      "Description": "Debug configuration: standard memory alignment and code analysis rules."
+    },
+    "Release": {
+      "BaseAddress": 285212672,
+      "FileAlignment": 4096,
+      "NoStdLib": false,
+      "RegisterForComInterop": false,
+      "DebugType": "none",
+      "CodeAnalysisRuleSet": "AllRules.ruleset",
+      "Description": "Release configuration: optimized build without debug symbols."
+    }
+  },
+  "Files": {
+    "Source": [
+      {
+        "Name": "StandardAddInServer.cs",
+        "Type": "Compile",
+        "Description": "Primary AddIn server class. Implements Inventor.ApplicationAddInServer interface.",
+        "Classes": [
+          {
+            "ClassName": "StandardAddInServer",
+            "Namespace": "TestAddIn",
+            "Implements": ["Inventor.ApplicationAddInServer"],
+            "Guid": "5182e0c0-3a51-4454-9c39-67c3cba9e217",
+            "Fields": [
+              {
+                "Name": "m_inventorApplication",
+                "Type": "Inventor.Application",
+                "Description": "Holds reference to running Inventor application instance. Used to interact with Inventor API."
+              }
+            ],
+            "Methods": [
+              {
+                "Name": "Activate",
+                "Parameters": ["Inventor.ApplicationAddInSite addInSiteObject", "bool firstTime"],
+                "Description": "Called by Inventor when the AddIn is loaded. Initializes internal objects, events, and commands."
+              },
+              {
+                "Name": "Deactivate",
+                "Parameters": [],
+                "Description": "Called when AddIn is unloaded. Releases resources, sets application object to null, and runs garbage collection."
+              },
+              {
+                "Name": "ExecuteCommand",
+                "Parameters": ["int commandID"],
+                "Description": "Obsolete method for executing a command by ID. Modern AddIns should use ControlDefinition objects instead."
+              },
+              {
+                "Name": "Automation",
+                "Parameters": [],
+                "Description": "Optional property to expose a custom API to external programs. Returns null by default."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "AssemblyInfo.cs",
+        "Type": "Compile",
+        "Description": "Contains assembly metadata for the AddIn.",
+        "Attributes": {
+          "AssemblyTitle": "TestAddIn",
+          "AssemblyDescription": "TestAddIn",
+          "AssemblyCompany": "Autodesk, Inc.",
+          "AssemblyProduct": "Autodesk Inventor",
+          "AssemblyCopyright": "Copyright �2025 Autodesk, Inc.",
+          "Guid": "ac58f41f-25f7-4ebd-a85e-e7f04289e38a",
+          "AssemblyVersion": "1.0.0.0",
+          "DelaySign": false,
+          "KeyFile": "",
+          "KeyName": "",
+          "Description": "Assembly attributes provide metadata and COM GUID for registration."
+        }
+      }
+    ],
+    "None": [
+      {
+        "Name": "TestAddIn.X.manifest",
+        "Type": "None",
+        "Description": "Windows application manifest for COM registration and runtime settings."
+      },
+      {
+        "Name": "Autodesk.TestAddIn.Inventor.addin",
+        "Type": "None",
+        "Description": "Inventor AddIn registration XML. Contains ClassId, assembly name, load options, and version compatibility."
+      },
+      {
+        "Name": "Readme.txt",
+        "Type": "None",
+        "Description": "Optional readme file included for documentation."
+      }
+    ]
+  },
+  "References": [
+    {
+      "Name": "System",
+      "Type": "Framework",
+      "Description": "Standard .NET Framework reference required for all C# projects."
+    },
+    {
+      "Name": "Autodesk.Inventor.Interop",
+      "HintPath": "$(programfiles)\\Autodesk\\Inventor 2026\\Bin\\Autodesk.Inventor.Interop.dll",
+      "EmbedInteropTypes": false,
+      "Private": true,
+      "Description": "Primary interop assembly for Inventor API. Provides access to Inventor objects and methods from .NET."
+    }
+  ],
+  "COMReferences": [
+    {
+      "Name": "stdole",
+      "WrapperTool": "tlbimp",
+      "VersionMajor": 2,
+      "VersionMinor": 0,
+      "Guid": "00020430-0000-0000-c000-000000000046",
+      "Lcid": 0,
+      "Isolated": false,
+      "EmbedInteropTypes": true,
+      "Description": "COM reference required for automation and standard OLE types."
+    }
+  ],
+  "AddIn": {
+    "ClassId": "{5182e0c0-3a51-4454-9c39-67c3cba9e217}",
+    "ClientId": "{5182e0c0-3a51-4454-9c39-67c3cba9e217}",
+    "DisplayName": "TestAddIn",
+    "Description": "TestAddIn",
+    "Assembly": "TestAddIn.dll",
+    "LoadOnStartUp": true,
+    "UserUnloadable": true,
+    "Hidden": false,
+    "SupportedSoftwareVersionGreaterThan": "29.0",
+    "DataVersion": 1,
+    "UserInterfaceVersion": 1,
+    "Explanation": "This section defines how Inventor loads and identifies the AddIn."
+  },
+  "PostBuildEvent": {
+    "Description": "Copies DLL, .addin, and manifest files to standard AddIns folders for All Users and Current User.",
+    "Commands": [
+      {
+        "Source": "$(TargetPath)",
+        "TargetAllUsers": "C:\\ProgramData\\Autodesk\\Inventor 2026\\Addins",
+        "TargetCurrentUser": "%APPDATA%\\Autodesk\\Inventor 2026\\Addins",
+        "Action": "Copy"
+      },
+      {
+        "Source": "$(ProjectDir)Autodesk.TestAddIn.Inventor.addin",
+        "TargetAllUsers": "C:\\ProgramData\\Autodesk\\Inventor 2026\\Addins",
+        "TargetCurrentUser": "%APPDATA%\\Autodesk\\Inventor 2026\\Addins",
+        "Action": "Copy"
+      },
+      {
+        "Source": "$(ProjectDir)TestAddIn.X.manifest",
+        "TargetAllUsers": "C:\\ProgramData\\Autodesk\\Inventor 2026\\Addins",
+        "TargetCurrentUser": "%APPDATA%\\Autodesk\\Inventor 2026\\Addins",
+        "Action": "Copy"
+      }
+    ]
+  },
+  "Explanation": "This JSON represents the full structure of a standard Autodesk Inventor 2026 AddIn template, including all files, references, COM dependencies, metadata, and post-build copy actions. Ideal for training, documentation, and automated analysis of AddIn projects."
+}

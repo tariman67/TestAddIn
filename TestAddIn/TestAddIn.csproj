@@ -1,0 +1,84 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<ProjectType>Local</ProjectType>
+		<OutputType>Library</OutputType>
+		<RootNamespace>InvAddIn</RootNamespace>
+		<UseWindowsForms>true</UseWindowsForms>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+		<EnableDefaultItems>false</EnableDefaultItems>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<BaseAddress>285212672</BaseAddress>
+		<FileAlignment>4096</FileAlignment>
+		<NoStdLib>false</NoStdLib>
+		<RegisterForComInterop>false</RegisterForComInterop>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<BaseAddress>285212672</BaseAddress>
+		<FileAlignment>4096</FileAlignment>
+		<NoStdLib>false</NoStdLib>
+		<RegisterForComInterop>false</RegisterForComInterop>
+		<DebugType>none</DebugType>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+
+	<!-- Framework reference -->
+	<ItemGroup>
+		<Reference Include="System" />
+	</ItemGroup>
+
+	<!-- Autodesk Inventor Interop reference -->
+	<ItemGroup>
+		<Reference Include="Autodesk.Inventor.Interop">
+			<HintPath>C:\Program Files\Autodesk\Inventor 2026\Bin\Autodesk.Inventor.Interop.dll</HintPath>
+			<EmbedInteropTypes>False</EmbedInteropTypes>
+			<Private>True</Private>
+		</Reference>
+	</ItemGroup>
+
+	<!-- stdole COM reference -->
+	<ItemGroup>
+		<COMReference Include="stdole">
+			<WrapperTool>tlbimp</WrapperTool>
+			<VersionMinor>0</VersionMinor>
+			<VersionMajor>2</VersionMajor>
+			<Guid>00020430-0000-0000-c000-000000000046</Guid>
+			<Lcid>0</Lcid>
+			<Isolated>false</Isolated>
+			<EmbedInteropTypes>true</EmbedInteropTypes>
+		</COMReference>
+	</ItemGroup>
+
+	<!-- Source files -->
+	<ItemGroup>
+		<Compile Include="StandardAddInServer.cs" />
+		<Compile Include="AssemblyInfo.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="ProjectDescription.json" />
+	</ItemGroup>
+
+	<!-- Non-compilable files -->
+	<ItemGroup>
+		<None Include="README.md" />
+		<None Include="TestAddIn.X.manifest" />
+		<None Include="Autodesk.TestAddIn.Inventor.addin" />
+		<None Include="Readme.txt" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<ApplicationManifest>TestAddIn.X.manifest</ApplicationManifest>
+	</PropertyGroup>
+
+	<!-- Post-Build Event: Copy DLL, .addin, and manifest -->
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="&#xD;&#xA;      set SourceDir=$(TargetDir)&#xD;&#xA;      set TargetDirAllUsers=C:\ProgramData\Autodesk\Inventor 2026\Addins&#xD;&#xA;      set TargetDirCurrentUser=%APPDATA%\Autodesk\Inventor 2026\Addins&#xD;&#xA;&#xD;&#xA;      if not exist &quot;%TargetDirAllUsers%&quot; mkdir &quot;%TargetDirAllUsers%&quot;&#xD;&#xA;      if not exist &quot;%TargetDirCurrentUser%&quot; mkdir &quot;%TargetDirCurrentUser%&quot;&#xD;&#xA;&#xD;&#xA;      xcopy /Y /I &quot;$(TargetPath)&quot; &quot;%TargetDirAllUsers%&quot;&#xD;&#xA;      xcopy /Y /I &quot;$(TargetPath)&quot; &quot;%TargetDirCurrentUser%&quot;&#xD;&#xA;&#xD;&#xA;      xcopy /Y /I &quot;$(ProjectDir)Autodesk.TestAddIn.Inventor.addin&quot; &quot;%TargetDirAllUsers%&quot;&#xD;&#xA;      xcopy /Y /I &quot;$(ProjectDir)Autodesk.TestAddIn.Inventor.addin&quot; &quot;%TargetDirCurrentUser%&quot;&#xD;&#xA;&#xD;&#xA;      xcopy /Y /I &quot;$(ProjectDir)TestAddIn.X.manifest&quot; &quot;%TargetDirAllUsers%&quot;&#xD;&#xA;      xcopy /Y /I &quot;$(ProjectDir)TestAddIn.X.manifest&quot; &quot;%TargetDirCurrentUser%&quot;&#xD;&#xA;    " />
+	</Target>
+
+</Project>

@@ -1,0 +1,14 @@
+<Addin Type="Standard">
+  <!--Created for Autodesk Inventor Version 30.0-->
+  <ClassId>{5182e0c0-3a51-4454-9c39-67c3cba9e217}</ClassId>
+  <ClientId>{5182e0c0-3a51-4454-9c39-67c3cba9e217}</ClientId>
+  <DisplayName>TestAddIn</DisplayName>
+  <Description>TestAddIn</Description>
+  <Assembly>TestAddIn.dll</Assembly>
+  <LoadOnStartUp>1</LoadOnStartUp>
+  <UserUnloadable>1</UserUnloadable>
+  <Hidden>0</Hidden>
+  <SupportedSoftwareVersionGreaterThan>29..</SupportedSoftwareVersionGreaterThan>
+  <DataVersion>1</DataVersion>
+  <UserInterfaceVersion>1</UserInterfaceVersion>
+</Addin>

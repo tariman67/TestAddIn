@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+
+  <assemblyIdentity name="TestAddIn" version="1.0.0.0"></assemblyIdentity>
+
+  <clrClass clsid="{5182e0c0-3a51-4454-9c39-67c3cba9e217}" progid="TestAddIn.StandardAddInServer" threadingModel="Both" name="TestAddIn.StandardAddInServer" runtimeVersion=""></clrClass>
+
+  <file name="TestAddIn.dll" hashalg="SHA1"></file>
+
+</assembly>
